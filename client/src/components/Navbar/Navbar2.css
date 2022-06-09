@@ -1,0 +1,14 @@
+#mainNav ul li a {
+
+    color:#fff;
+    font-weight: bold;
+
+}
+
+
+#mainNav ul .active a {
+
+    color: #e8C061;
+    font-weight: bold;
+
+}
