@@ -4,13 +4,22 @@ const express =require('express')
 const mongoose=require('mongoose');
 const app=express() ;
 const cors = require('cors');
+require("dotenv").config();
 
 const routerAderant=require("./routes/User/aderant-routes");
 
-const db = 'mongodb+srv://fcb:fcb123@cluster0.k1qp3.mongodb.net/?retryWrites=true&w=majority'
+const routerUser=require('./routes/User/User-routes')
+const PORT=process.env.PORT
+const passport=require("passport");
 
+
+// Passport 
+app.use(passport.initialize())
+require('./security/passport')(passport)
+
+//  connected to data base 
 mongoose
-.connect(db)
+.connect(process.env.MONGO_URI)
 .then(()=> {
 app.listen(5000) ;
 console.log("Data Base FCB Is Connected Listening to Localhost 5000")})
@@ -20,5 +29,6 @@ console.log("Data Base FCB Is Connected Listening to Localhost 5000")})
 app.use(cors())
 app.use(express.json())
 app.use("/aderant",routerAderant)
+app.use("/user",routerUser)
 
-
+ 
