@@ -60,10 +60,10 @@ const Login=async(req,res)=>{
                     else {
                         var token = jwt.sign({ 
                             id:user._id, 
-                            name:user._id,
+                            name:user.name,
                             email:user.email,
                             role:user.role 
-                          }, process.env.PRIVATE_KEY,{ expiresIn: '1h'});
+                          },"shhhh",{ expiresIn: '1h'});
                           
                           res.status(200).json({
                               message:'login success' ,
@@ -83,13 +83,7 @@ const Login=async(req,res)=>{
 }
 
 const Test=(req,res)=>{
- 
-// verify a token symmetric
-// jwt.verify(req.rawHeaders[1].split('Bearer ')[1],process.env.PRIVATE_KEY, function(err, decoded) {
-//     res.send(decoded) // bar
-//   });
-
-res.send('welcome User ')
+  res.send("je suis la page test ")
 }
 
 

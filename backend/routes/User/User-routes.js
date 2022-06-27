@@ -12,8 +12,7 @@ routerUser.post('/login',Login)
 
 // Test router
 
-routerUser.get('/test', passport.authenticate("jwt",{session:true}),
-inRole(ROLES.ADMIN),Test)
+routerUser.get('/test',Test)
 routerUser.get('/admin',Admin)
 
 
