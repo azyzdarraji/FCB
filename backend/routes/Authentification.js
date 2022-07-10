@@ -4,13 +4,7 @@ const bcrypt = require("bcryptjs");
 const cnx = require("../database/connecter");
 const util = require("util");
 const AuthRoute = express.Router();
-cnx.connect((err) => {
-    if (err) {
-        throw err;
-    } else {
-        console.log("Connected to data base");
-    }
-});
+
 AuthRoute.post("/api/Login", async (req, res) => {
     try {
         let { matricule, mdp, type_u } = req.body;
@@ -51,7 +45,7 @@ AuthRoute.post("/api/AddAdherent", async (req, res) => {
             if (err) {
                 throw err;
             } else {
-                let sqlAd = `Insert into adherant (NOM,PRENOM,AGE,POIDS,TAILLE,NUM_INSCRIPTION,DATE_INSCRIPTION,ID_CATEGORIE,ID_PARENT,ID_U) Values ("${nom}","${prenom}","${age}","${poids}","${taille}","${num_insc}","${date_insc}","${id_cat}","${id_parent}","${result.insertId}")`;
+                let sqlAd = `Insert into adherent (NOM,PRENOM,AGE,POIDS,TAILLE,NUM_INSCRIPTION,DATE_INSCRIPTION,ID_CATEGORIE,ID_PARENT,ID_U) Values ("${nom}","${prenom}","${age}","${poids}","${taille}","${num_insc}","${date_insc}","${id_cat}","${id_parent}","${result.insertId}")`;
                 cnx.query(sqlAd, (err, result) => {
                     if (err) {
                         throw err;
