@@ -7,23 +7,22 @@ import Main from "./components/Main/Main";
 
 import Navbar from "./components/Navbar/Navbar";
 import Navbar2 from "./components/Navbar/Navbar2";
+import Dashboard from "./components/Pages/Dashboard";
 
 function App() {
-  return (
-    <div>
-
-      <BrowserRouter>
-      <Header/>
+    return (
+        <div>
+            <BrowserRouter>
+                {/* <Header/>
       <Navbar2/>
-      {/* <Navbar/> */}
+       <Navbar/> 
       <Main/>
       <Footer/>
-    
-      </BrowserRouter>
-      
-       
-      </div>
-  );
+     */}
+                <Dashboard />
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
