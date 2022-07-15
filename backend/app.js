@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const cors = require("cors");
 const AuthRoute = require("./routes/Authentification");
+const AdRoute = require("./routes/Adherent");
+const ParentRoute = require("./routes/Parent");
+const EntraineurRoute = require("./routes/Entraineur");
 require("dotenv").config();
 const cnx = require("./database/connecter");
 const app = express();
@@ -16,3 +19,6 @@ app.listen(3001, () => {
     console.log(`Listening to Localhost ${PORT}`);
 });
 app.use(AuthRoute);
+app.use(AdRoute);
+app.use(ParentRoute);
+app.use(EntraineurRoute);
