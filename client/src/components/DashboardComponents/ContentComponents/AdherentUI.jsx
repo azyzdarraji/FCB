@@ -3,6 +3,8 @@ import { Box, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import AddAdherent from "./AdherentComponents/AddAdherent";
+import UpdateAdherent from "./AdherentComponents/UpdateAdherent";
 function AdherentUI() {
     const [value, setValue] = React.useState("1");
 
@@ -27,9 +29,9 @@ function AdherentUI() {
                         <Tab label="Suprimer" value="3" />
                     </TabList>
                 </Box>
-                <TabPanel value="1">Ajout</TabPanel>
-                <TabPanel value="2">Modification</TabPanel>
-                <TabPanel value="3">Supression</TabPanel>
+                <TabPanel value="1" style={{width:"100%"}}><AddAdherent /></TabPanel>
+                <TabPanel value="2" style={{width:"100%"}}><UpdateAdherent /></TabPanel>
+                <TabPanel value="3" style={{width:"100%"}}>Supression</TabPanel>
             </TabContext>
         </Box>
     );

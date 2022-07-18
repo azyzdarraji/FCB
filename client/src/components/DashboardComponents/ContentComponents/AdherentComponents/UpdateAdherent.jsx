@@ -1,0 +1,47 @@
+import React from 'react'
+import { DataGrid } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
+
+const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    {
+      field: 'nom',
+      headerName: 'Nom',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'prenom',
+      headerName: 'Prenom',
+      width: 150,
+      editable: true,
+    },
+    {
+      field: 'age',
+      headerName: 'Age',
+      type: 'number',
+      width: 110,
+      editable: true,
+    },
+  ];
+  
+  const rows = [
+    { id: 1, nom: 'Snow', prenom: 'Jon', age: 15 },
+    { id: 2, nom: 'Lannister', prenom: 'Cersei', age: 12 },
+   
+  ];
+function UpdateAdherent() {
+  return (
+    <div> <Box sx={{ height: 400, width: '100%' }}>
+    <DataGrid
+      rows={rows}
+      columns={columns}
+      pageSize={5}
+      rowsPerPageOptions={[5]}
+      
+    />
+  </Box></div>
+  )
+}
+
+export default UpdateAdherent

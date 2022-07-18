@@ -3,6 +3,7 @@ import { Box, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import AddParent from "./ParentComponents/AddParent";
 function ParentUI() {
     const [value, setValue] = React.useState("1");
 
@@ -27,7 +28,7 @@ function ParentUI() {
                         <Tab label="Suprimer" value="3" />
                     </TabList>
                 </Box>
-                <TabPanel value="1">Ajout</TabPanel>
+                <TabPanel value="1"><AddParent /></TabPanel>
                 <TabPanel value="2">Modification</TabPanel>
                 <TabPanel value="3">Supression</TabPanel>
             </TabContext>
