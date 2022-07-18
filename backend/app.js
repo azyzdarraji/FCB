@@ -7,6 +7,7 @@ const AuthRoute = require("./routes/Authentification");
 const AdRoute = require("./routes/Adherent");
 const ParentRoute = require("./routes/Parent");
 const EntraineurRoute = require("./routes/Entraineur");
+const AdminRoute = require("./routes/Admin");
 require("dotenv").config();
 const cnx = require("./database/connecter");
 const app = express();
@@ -22,3 +23,5 @@ app.use(AuthRoute);
 app.use(AdRoute);
 app.use(ParentRoute);
 app.use(EntraineurRoute);
+app.use(AdminRoute);
+
