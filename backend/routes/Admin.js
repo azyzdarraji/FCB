@@ -279,13 +279,14 @@ AdminRoute.get("/api/ToutPayement", async (req, res) => {
 //Ajout
 AdminRoute.post("/api/AddAdherent", async (req, res) => {
     try {
-        const { nom, prenom, age, poids, taille, num_insc, id_cat, id_parent, matricule, mdp } =
+        const { nom, prenom, poids, taille, date_naissance, id_cat, id_parent, matricule, mdp } =
             req.body;
         const date_insc = new Date().toISOString().slice(0, 10);
         const type_u = "d";
         let checkCat = `select * from categorie where ID_CATEGORIE=${id_cat}`;
         let checkParent = `select * from parent where ID_PARENT=${id_parent}`;
         let cHeckAdherent = `select * from adherent where NOM="${nom}" and PRENOM="${prenom}" and ID_PARENT=${id_parent}`;
+
         const hash = await bcrypt.hash(mdp, 5);
         let sqlUser = `Insert into utilisateur (MATRICULE, MOT_DE_PASSE,TYPE_U) Values ("${matricule}","${hash}","${type_u}")`;
 
@@ -331,7 +332,7 @@ AdminRoute.post("/api/AddAdherent", async (req, res) => {
                                                                     );
                                                                     throw err;
                                                                 } else {
-                                                                    let sqlAd = `Insert into adherent (NOM,PRENOM,AGE,POIDS,TAILLE,NUM_INSCRIPTION,DATE_INSCRIPTION,ID_CATEGORIE,ID_PARENT,ID_U) Values ("${nom}","${prenom}","${age}","${poids}","${taille}","${num_insc}","${date_insc}","${id_cat}","${id_parent}","${result.insertId}")`;
+                                                                    let sqlAd = `Insert into adherent (NOM,PRENOM,DATE_NAISSANCE,POIDS,TAILLE,NUM_INSCRIPTION,DATE_INSCRIPTION,ID_CATEGORIE,ID_PARENT,ID_U) Values ("${nom}","${prenom}","${date_naissance}","${poids}","${taille}","${date_insc}","${id_cat}","${id_parent}","${result.insertId}")`;
                                                                     cnx.query(
                                                                         sqlAd,
                                                                         (err, result) => {
@@ -343,10 +344,28 @@ AdminRoute.post("/api/AddAdherent", async (req, res) => {
                                                                                 );
                                                                                 throw err;
                                                                             } else {
-                                                                                res.status(
-                                                                                    200
-                                                                                ).send(
-                                                                                    "Added adherent successfully !"
+                                                                                let addPayement = `insert into payement (TYPE_PAYEMENT,ETAT_PAYEMENT,ID_ADHERANT) VALUES("mensuel",1,${result.insertId}})`;
+                                                                                cnx.query(
+                                                                                    addPayement,
+                                                                                    (
+                                                                                        err,
+                                                                                        result
+                                                                                    ) => {
+                                                                                        if (err) {
+                                                                                            res.status(
+                                                                                                500
+                                                                                            ).send(
+                                                                                                "erreur dans la base de données"
+                                                                                            );
+                                                                                            throw err;
+                                                                                        } else {
+                                                                                            res.status(
+                                                                                                200
+                                                                                            ).send(
+                                                                                                "Added adherent successfully !"
+                                                                                            );
+                                                                                        }
+                                                                                    }
                                                                                 );
                                                                             }
                                                                         }
@@ -714,6 +733,7 @@ AdminRoute.post("/api/ModifEntraineurCategorie", async (req, res) => {
 AdminRoute.delete("/api/suprimerAdherent", async (req, res) => {
     try {
         const { id } = req.body;
+        let DesactivatePayement = `Update payement set ETAT_PAYEMENT=0`;
         let sql = `Delete from adherent where ID_ADHERENT=${id} `;
         validation = ValidateSuprime(req.body);
         if (validation.isValid) {
@@ -727,7 +747,14 @@ AdminRoute.delete("/api/suprimerAdherent", async (req, res) => {
                             "operation echoué: enchainement n'existe pas ou mauvaise requete"
                         );
                     } else {
-                        res.status(200).send("supression avec succé");
+                        cnx.query(DesactivatePayement, (err, result) => {
+                            if (err) {
+                                res.status(500).send("erreur dans la base de données");
+                                throw err;
+                            } else {
+                                res.status(200).send("supression avec succé");
+                            }
+                        });
                     }
                 }
             });
@@ -769,7 +796,9 @@ AdminRoute.delete("/api/suprimerParent", async (req, res) => {
 });
 AdminRoute.delete("/api/suprimerEntraineur", async (req, res) => {
     try {
-        validation = ValidateSuprime(req.body);
+        const { id } = req.body;
+        let sql = `Delete from entraineur where ID_ENTRAINEUR=${id} `;
+        let validation = ValidateSuprime(req.body);
         if (validation.isValid) {
             cnx.query(sql, (err, result) => {
                 if (err) {
@@ -778,10 +807,24 @@ AdminRoute.delete("/api/suprimerEntraineur", async (req, res) => {
                 } else {
                     if (result.affectedRows < 1) {
                         res.status(400).send(
-                            "operation echoué: enchainement n'existe pas ou mauvaise requete"
+                            "operation echoué: Entraineur n'existe pas ou mauvaise requete"
                         );
                     } else {
-                        res.status(200).send("supression avec succé");
+                        let deleteEnchqinement = `Delete from enchainement where ID_ENTRAINEUR=${id} `;
+                        cnx.query(deleteEnchqinement, (err, result) => {
+                            if (err) {
+                                res.status(500).send("erreur dans la base de données");
+                                throw err;
+                            } else {
+                                if (result.affectedRows < 1) {
+                                    res.status(400).send(
+                                        "Entraineur ne possède pas des enchainement"
+                                    );
+                                } else {
+                                    res.status(200).send("supression avec succé");
+                                }
+                            }
+                        });
                     }
                 }
             });

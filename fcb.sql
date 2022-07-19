@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2022 at 07:02 PM
+-- Generation Time: Jul 19, 2022 at 04:58 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.4
 
@@ -24,29 +24,21 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `adherant`
+-- Table structure for table `adherent`
 --
 
-CREATE TABLE `adherant` (
+CREATE TABLE `adherent` (
   `ID_ADHERANT` int(11) NOT NULL,
   `NOM` varchar(50) NOT NULL,
   `PRENOM` varchar(50) NOT NULL,
-  `AGE` int(11) NOT NULL,
+  `DATE_NAISSANCE` date NOT NULL,
   `POIDS` float NOT NULL,
   `TAILLE` float NOT NULL,
-  `NUM_INSCRIPTION` int(11) NOT NULL,
   `DATE_INSCRIPTION` date NOT NULL,
   `ID_CATEGORIE` int(11) NOT NULL,
   `ID_PARENT` int(11) NOT NULL,
   `ID_U` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `adherant`
---
-
-INSERT INTO `adherant` (`ID_ADHERANT`, `NOM`, `PRENOM`, `AGE`, `POIDS`, `TAILLE`, `NUM_INSCRIPTION`, `DATE_INSCRIPTION`, `ID_CATEGORIE`, `ID_PARENT`, `ID_U`) VALUES
-(1, 'wel ali', 'ben saleh', 10, 55.35, 157, 123456, '0000-00-00', 1, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -72,16 +64,19 @@ CREATE TABLE `administrateur` (
 CREATE TABLE `categorie` (
   `ID_CATEGORIE` int(11) NOT NULL,
   `NOM_CATEGORIE` varchar(50) NOT NULL,
+  `AGE_MIN` int(11) NOT NULL,
+  `AGE_MAX` int(11) NOT NULL,
+  `FRAIS` float NOT NULL,
   `ID_ENTRAINEUR` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `enchaninement`
+-- Table structure for table `enchainement`
 --
 
-CREATE TABLE `enchaninement` (
+CREATE TABLE `enchainement` (
   `ID_ENCHAINEMENT` int(11) NOT NULL,
   `DESCRIPTION` varchar(255) NOT NULL,
   `ID_ENTRAINEUR` int(11) NOT NULL
@@ -145,13 +140,6 @@ CREATE TABLE `parent` (
   `ID_U` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `parent`
---
-
-INSERT INTO `parent` (`ID_PARENT`, `NOM`, `PRENOM`, `CIN`, `NUM_TELEPHONE`, `ID_U`) VALUES
-(1, 'ali', 'ben saleh', 24851671, 21457845, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -161,22 +149,8 @@ INSERT INTO `parent` (`ID_PARENT`, `NOM`, `PRENOM`, `CIN`, `NUM_TELEPHONE`, `ID_
 CREATE TABLE `payement` (
   `ID_PAYEMENT` int(11) NOT NULL,
   `TYPE_PAYEMENT` varchar(50) NOT NULL,
-  `DATE_LIMITE` date NOT NULL,
   `ETAT_PAYEMENT` tinyint(1) NOT NULL DEFAULT 1,
-  `MONTANT` float NOT NULL,
   `ID_ADHERANT` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transaction`
---
-
-CREATE TABLE `transaction` (
-  `ID_TRANSACTION` int(11) NOT NULL,
-  `ID_PARENT` int(11) NOT NULL,
-  `ID_PAYEMENT` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -202,14 +176,6 @@ CREATE TABLE `utilisateur` (
   `MOT_DE_PASSE` varchar(50) NOT NULL,
   `TYPE_U` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `utilisateur`
---
-
-INSERT INTO `utilisateur` (`ID_U`, `MATRICULE`, `MOT_DE_PASSE`, `TYPE_U`) VALUES
-(3, 'test2', '$2a$05$dKpK/zrbGM0niI3nXLJbketVy7xS5qMmaNeNN2DGCSX', 'p'),
-(4, 'test', '$2a$05$ztrfuWFEU01sHnfopcJuguZSMpjqZ4XIZmS12DStVzX', 'd');
 
 -- --------------------------------------------------------
 
@@ -242,13 +208,13 @@ CREATE TABLE `vue_calendrier` (
 --
 
 --
--- Indexes for table `adherant`
+-- Indexes for table `adherent`
 --
-ALTER TABLE `adherant`
+ALTER TABLE `adherent`
   ADD PRIMARY KEY (`ID_ADHERANT`),
-  ADD KEY `ID_CATEGORIE` (`ID_CATEGORIE`,`ID_PARENT`,`ID_U`),
   ADD KEY `ID_U` (`ID_U`),
-  ADD KEY `ID_PARENT` (`ID_PARENT`);
+  ADD KEY `ID_PARENT` (`ID_PARENT`),
+  ADD KEY `adherent_ibfk_3` (`ID_CATEGORIE`);
 
 --
 -- Indexes for table `administrateur`
@@ -265,9 +231,9 @@ ALTER TABLE `categorie`
   ADD KEY `ID_ENTRAINEUR` (`ID_ENTRAINEUR`);
 
 --
--- Indexes for table `enchaninement`
+-- Indexes for table `enchainement`
 --
-ALTER TABLE `enchaninement`
+ALTER TABLE `enchainement`
   ADD PRIMARY KEY (`ID_ENCHAINEMENT`),
   ADD KEY `ID_ENTRAINEUR` (`ID_ENTRAINEUR`);
 
@@ -308,14 +274,6 @@ ALTER TABLE `payement`
   ADD KEY `ID_ADHERANT` (`ID_ADHERANT`);
 
 --
--- Indexes for table `transaction`
---
-ALTER TABLE `transaction`
-  ADD PRIMARY KEY (`ID_TRANSACTION`),
-  ADD KEY `ID_PAYEMENT` (`ID_PAYEMENT`),
-  ADD KEY `transaction_ibfk_1` (`ID_PARENT`);
-
---
 -- Indexes for table `type_evenement`
 --
 ALTER TABLE `type_evenement`
@@ -346,10 +304,10 @@ ALTER TABLE `vue_calendrier`
 --
 
 --
--- AUTO_INCREMENT for table `adherant`
+-- AUTO_INCREMENT for table `adherent`
 --
-ALTER TABLE `adherant`
-  MODIFY `ID_ADHERANT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `adherent`
+  MODIFY `ID_ADHERANT` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `administrateur`
@@ -361,19 +319,19 @@ ALTER TABLE `administrateur`
 -- AUTO_INCREMENT for table `categorie`
 --
 ALTER TABLE `categorie`
-  MODIFY `ID_CATEGORIE` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_CATEGORIE` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `enchaninement`
+-- AUTO_INCREMENT for table `enchainement`
 --
-ALTER TABLE `enchaninement`
+ALTER TABLE `enchainement`
   MODIFY `ID_ENCHAINEMENT` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `entraineur`
 --
 ALTER TABLE `entraineur`
-  MODIFY `ID_ENTRAINEUR` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_ENTRAINEUR` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `evenement`
@@ -391,19 +349,13 @@ ALTER TABLE `eventhebdo`
 -- AUTO_INCREMENT for table `parent`
 --
 ALTER TABLE `parent`
-  MODIFY `ID_PARENT` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_PARENT` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payement`
 --
 ALTER TABLE `payement`
   MODIFY `ID_PAYEMENT` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `transaction`
---
-ALTER TABLE `transaction`
-  MODIFY `ID_TRANSACTION` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `type_evenement`
@@ -415,7 +367,7 @@ ALTER TABLE `type_evenement`
 -- AUTO_INCREMENT for table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `ID_U` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_U` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vuehebdomadaire`
@@ -434,11 +386,12 @@ ALTER TABLE `vue_calendrier`
 --
 
 --
--- Constraints for table `adherant`
+-- Constraints for table `adherent`
 --
-ALTER TABLE `adherant`
-  ADD CONSTRAINT `adherant_ibfk_1` FOREIGN KEY (`ID_U`) REFERENCES `utilisateur` (`ID_U`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `adherant_ibfk_2` FOREIGN KEY (`ID_PARENT`) REFERENCES `parent` (`ID_PARENT`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `adherent`
+  ADD CONSTRAINT `adherent_ibfk_1` FOREIGN KEY (`ID_U`) REFERENCES `utilisateur` (`ID_U`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `adherent_ibfk_2` FOREIGN KEY (`ID_PARENT`) REFERENCES `parent` (`ID_PARENT`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `adherent_ibfk_3` FOREIGN KEY (`ID_CATEGORIE`) REFERENCES `categorie` (`ID_CATEGORIE`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `administrateur`
@@ -453,10 +406,10 @@ ALTER TABLE `categorie`
   ADD CONSTRAINT `categorie_ibfk_1` FOREIGN KEY (`ID_ENTRAINEUR`) REFERENCES `entraineur` (`ID_ENTRAINEUR`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `enchaninement`
+-- Constraints for table `enchainement`
 --
-ALTER TABLE `enchaninement`
-  ADD CONSTRAINT `enchaninement_ibfk_1` FOREIGN KEY (`ID_ENTRAINEUR`) REFERENCES `entraineur` (`ID_ENTRAINEUR`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `enchainement`
+  ADD CONSTRAINT `enchainement_ibfk_1` FOREIGN KEY (`ID_ENTRAINEUR`) REFERENCES `entraineur` (`ID_ENTRAINEUR`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `entraineur`
@@ -487,14 +440,7 @@ ALTER TABLE `parent`
 -- Constraints for table `payement`
 --
 ALTER TABLE `payement`
-  ADD CONSTRAINT `payement_ibfk_1` FOREIGN KEY (`ID_ADHERANT`) REFERENCES `adherant` (`ID_ADHERANT`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `transaction`
---
-ALTER TABLE `transaction`
-  ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`ID_PARENT`) REFERENCES `parent` (`ID_PARENT`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`ID_PAYEMENT`) REFERENCES `payement` (`ID_PAYEMENT`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `payement_ibfk_1` FOREIGN KEY (`ID_ADHERANT`) REFERENCES `adherent` (`ID_ADHERANT`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vuehebdomadaire`

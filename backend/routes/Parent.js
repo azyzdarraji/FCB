@@ -1,3 +1,4 @@
+const express = require("express");
 const cnx = require("../database/connecter");
 const ParentRoute = express.Router();
 const isEmpty = require("../validation/isEmpty");
@@ -18,7 +19,7 @@ ParentRoute.get("/api/informationParent", async (req, res) => {
     try {
         const { id } = req.body;
         let sql = `Select * from Parent where ID_PARENT=${id}`;
-        validation = Validate(req.body);
+        let validation = Validate(req.body);
         if (validation.isValid) {
             cnx.query(sql, (err, result) => {
                 if (err) {
@@ -45,7 +46,7 @@ ParentRoute.get("/api/informationAdherentParent", async (req, res) => {
     try {
         const { id } = req.body;
         let sql = `Select * from adherent a inner join categorie c on a.ID_CATEGORIE=c.ID_CATEGORIE where a.ID_PARENT=${id}`;
-        validation = Validate(req.body);
+        let validation = Validate(req.body);
         if (validation.isValid) {
             cnx.query(sql, (err, result) => {
                 if (err) {
@@ -72,7 +73,7 @@ ParentRoute.get("/api/informationAdherentPayement", async (req, res) => {
     try {
         const { id } = req.body;
         let sql = `Select DISTINCT * from adherent a join payement p on a.ID_ADHERANT=p.ID_ADHERANT where a.ID_PARENT=${id} `;
-        validation = Validate(req.body);
+        let validation = Validate(req.body);
         if (validation.isValid) {
             cnx.query(sql, (err, result) => {
                 if (err) {

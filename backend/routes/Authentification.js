@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const cnx = require("../database/connecter");
 const AuthRoute = express.Router();
 const validator = require("validator");
-
+const isEmpty = require("../validation/isEmpty");
 function Validate(data) {
     let errors = {};
     if (validator.isEmpty(data.matricule)) {
@@ -24,7 +24,7 @@ AuthRoute.post("/api/Login", async (req, res) => {
     try {
         let { matricule, mdp, type_u } = req.body;
         let sql = `select * from utilisateur where MATRICULE="${matricule}" and TYPE_U="${type_u}"`;
-        validation = Validate(req.body);
+        let validation = Validate(req.body);
         if (validation.isValid) {
             cnx.query(sql, (err, result) => {
                 if (err) {

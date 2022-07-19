@@ -3,13 +3,19 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const express = require("express");
 const cors = require("cors");
+
 const AuthRoute = require("./routes/Authentification");
 const AdRoute = require("./routes/Adherent");
 const ParentRoute = require("./routes/Parent");
 const EntraineurRoute = require("./routes/Entraineur");
 const AdminRoute = require("./routes/Admin");
+const CategorieRoute = require("./routes/Categorie");
+const PayementRoute = require("./routes/Payement");
+const StatistiquetRoute = require("./routes/Statistique");
+
 require("dotenv").config();
 const cnx = require("./database/connecter");
+const CategorieRoute = require("./routes/Categorie");
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,4 +30,6 @@ app.use(AdRoute);
 app.use(ParentRoute);
 app.use(EntraineurRoute);
 app.use(AdminRoute);
-
+app.use(CategorieRoute);
+app.use(PayementRoute);
+app.use(StatistiquetRoute);
