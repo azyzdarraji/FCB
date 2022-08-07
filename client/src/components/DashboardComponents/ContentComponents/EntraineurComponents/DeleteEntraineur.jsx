@@ -1,35 +1,53 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Box, Divider, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
-import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch, AiFillDelete } from "react-icons/ai";
 const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
         field: "nom",
         headerName: "Nom",
-        width: 150,
+        width: 200,
         editable: true,
     },
     {
         field: "prenom",
         headerName: "Prenom",
-        width: 150,
+        width: 200,
         editable: true,
     },
     {
-        field: "age",
-        headerName: "Age",
-        type: "number",
-        width: 110,
+        field: "num",
+        headerName: "Numero de telephone",
+
+        width: 350,
         editable: true,
+    },
+    {
+        field: "actions",
+        headerName: "",
+        sortable: false,
+        width: 300,
+        disableClickEventBubbling: true,
+        renderCell: (params) => {
+            return (
+                <div
+                    className="d-flex justify-content-between align-items-center"
+                    style={{ cursor: "pointer", color: "#ba000d", marginTop: "1em" }}
+                >
+                    <AiFillDelete style={{ marginBottom: "1em" }} />
+                    <p>Suprimer</p>
+                </div>
+            );
+        },
     },
 ];
 
 const rows = [
-    { id: 1, nom: "Snow", prenom: "Jon", age: 15 },
-    { id: 2, nom: "Lannister", prenom: "Cersei", age: 12 },
+    { id: 1, nom: "Ali", prenom: "Ben salah", num: 25105001 },
+    { id: 2, nom: "Montasar", prenom: "Karoui", num: 21475879 },
 ];
-function UpdateAdherent() {
+function DeleteEntraineur() {
     return (
         <div>
             <Grid container spacing={2}>
@@ -65,4 +83,4 @@ function UpdateAdherent() {
     );
 }
 
-export default UpdateAdherent;
+export default DeleteEntraineur;

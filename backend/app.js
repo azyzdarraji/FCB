@@ -15,7 +15,6 @@ const StatistiquetRoute = require("./routes/Statistique");
 
 require("dotenv").config();
 const cnx = require("./database/connecter");
-const CategorieRoute = require("./routes/Categorie");
 const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));

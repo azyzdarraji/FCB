@@ -33,6 +33,7 @@ import CategorieUI from "./ContentComponents/CategorieUI";
 import PayementUI from "./ContentComponents/PayementUI";
 import CalendrierUI from "./ContentComponents/CalendrierUI";
 import StatisticUI from "./ContentComponents/StatisticUI";
+import img from "../../assets/logo1.png";
 const drawerWidth = 240;
 function Content(props) {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,7 +51,13 @@ function Content(props) {
                 style={{ width: "2em", height: "2em", float: "right", marginTop: "1em" }}
                 onClick={handleDrawerToggle}
             />
-            <Toolbar />
+            <Toolbar style={{ justifyContent: "space-between" }}>
+                <div></div>
+
+                <img src={img} alt="" style={{ width: "3em", height: "3.2em" }}></img>
+
+                <div></div>
+            </Toolbar>
 
             <Divider />
             <List>

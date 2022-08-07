@@ -4,6 +4,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AddParent from "./ParentComponents/AddParent";
+import UpdateParent from "./ParentComponents/UpdateParent";
+import DeleteParent from "./ParentComponents/DeleteParent";
 function ParentUI() {
     const [value, setValue] = React.useState("1");
 
@@ -28,9 +30,15 @@ function ParentUI() {
                         <Tab label="Suprimer" value="3" />
                     </TabList>
                 </Box>
-                <TabPanel value="1"><AddParent /></TabPanel>
-                <TabPanel value="2">Modification</TabPanel>
-                <TabPanel value="3">Supression</TabPanel>
+                <TabPanel value="1">
+                    <AddParent />
+                </TabPanel>
+                <TabPanel value="2">
+                    <UpdateParent />
+                </TabPanel>
+                <TabPanel value="3">
+                    <DeleteParent />
+                </TabPanel>
             </TabContext>
         </Box>
     );

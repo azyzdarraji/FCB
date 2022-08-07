@@ -151,7 +151,7 @@ CategorieRoute.post("/api/MAJenchainement", async (req, res) => {
         throw err;
     }
 });
-EntraineurRoute.delete("/api/suprimerCategorie", async (req, res) => {
+CategorieRoute.delete("/api/suprimerCategorie", async (req, res) => {
     try {
         const { id } = req.body;
         let sql = `Delete from categorie where ID_CATEGORIE=${id} `;

@@ -4,6 +4,8 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AddEntraineur from "./EntraineurComponents/AddEntraineur";
+import UpdateEntraineur from "./EntraineurComponents/UpdateEntraineur";
+import DeleteEntraineur from "./EntraineurComponents/DeleteEntraineur";
 function EntraineurUI() {
     const [value, setValue] = React.useState("1");
 
@@ -28,9 +30,15 @@ function EntraineurUI() {
                         <Tab label="Suprimer" value="3" />
                     </TabList>
                 </Box>
-                <TabPanel value="1"><AddEntraineur /></TabPanel>
-                <TabPanel value="2">Modification</TabPanel>
-                <TabPanel value="3">Supression</TabPanel>
+                <TabPanel value="1">
+                    <AddEntraineur />
+                </TabPanel>
+                <TabPanel value="2">
+                    <UpdateEntraineur />
+                </TabPanel>
+                <TabPanel value="3">
+                    <DeleteEntraineur />
+                </TabPanel>
             </TabContext>
         </Box>
     );

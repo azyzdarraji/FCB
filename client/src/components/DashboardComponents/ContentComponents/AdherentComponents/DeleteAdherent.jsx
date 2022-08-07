@@ -29,7 +29,7 @@ const rows = [
     { id: 1, nom: "Snow", prenom: "Jon", age: 15 },
     { id: 2, nom: "Lannister", prenom: "Cersei", age: 12 },
 ];
-function UpdateAdherent() {
+function DeleteAdherent() {
     return (
         <div>
             <Grid container spacing={2}>
@@ -65,4 +65,4 @@ function UpdateAdherent() {
     );
 }
 
-export default UpdateAdherent;
+export default DeleteAdherent;
