@@ -136,7 +136,7 @@ EntraineurRoute.post("/api/MAJenchainement", async (req, res) => {
     }
 });
 
-EntraineurRoute.delete("/api/suprimerEnchainement", async (req, res) => {
+EntraineurRoute.post("/api/suprimerEnchainement", async (req, res) => {
     try {
         const { id } = req.body;
         let sql = `Delete from enchainement where ID_ENCHAINEMENT=${id} `;

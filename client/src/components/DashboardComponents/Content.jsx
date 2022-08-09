@@ -37,7 +37,7 @@ import img from "../../assets/logo1.png";
 const drawerWidth = 240;
 function Content(props) {
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [component, setComponent] = useState("");
+    const [component, setComponent] = useState("parent");
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };

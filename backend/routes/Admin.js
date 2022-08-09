@@ -405,7 +405,7 @@ AdminRoute.post("/api/AddParent", async (req, res) => {
         const hash = await bcrypt.hash(mdp, 5);
         let sql = `select * from utilisateur where MATRICULE="${matricule}" and TYPE_U="${type_u}"`;
         let sqlUser = `Insert into utilisateur (MATRICULE, MOT_DE_PASSE,TYPE_U) Values ("${matricule}","${hash}","${type_u}")`;
-        let checkParent = `select * from parent where CIN=${cin}`;
+        let checkParent = `select * from parent where CIN="${cin}"`;
         validation = ValidateAddParent(req.body);
 
         if (validation.isValid) {
@@ -603,9 +603,11 @@ AdminRoute.post("/api/ModifAdherent", async (req, res) => {
 });
 AdminRoute.post("/api/ModifParent", async (req, res) => {
     try {
-        const { nom, prenom, cin, num, id } = req.body;
-        let sql = `Update parent set NOM="${nom}",PRENOM="${prenom}",CIN="${cin}",NUM_TELEPHONE="${num}" where ID_PARENT="${id}"`;
-        let checkParent = `select * from parent where ID_PARENT=${id_parent}`;
+        const { nom, prenom, cin, num_tel, id } = req.body;
+
+        console.log(nom + "," + prenom + "," + cin + "," + num_tel + "," + id);
+        let sql = `Update parent set NOM="${nom}",PRENOM="${prenom}",CIN="${cin}",NUM_TELEPHONE="${num_tel}" where ID_PARENT="${id}"`;
+        let checkParent = `select * from parent where ID_PARENT="${id}"`;
         validation = ValidateMajParent(req.body);
         if (validation.isValid) {
             cnx.query(checkParent, (err, result) => {
@@ -730,7 +732,7 @@ AdminRoute.post("/api/ModifEntraineurCategorie", async (req, res) => {
 
 //suprrimer
 
-AdminRoute.delete("/api/suprimerAdherent", async (req, res) => {
+AdminRoute.post("/api/suprimerAdherent", async (req, res) => {
     try {
         const { id } = req.body;
         let DesactivatePayement = `Update payement set ETAT_PAYEMENT=0`;
@@ -766,10 +768,11 @@ AdminRoute.delete("/api/suprimerAdherent", async (req, res) => {
         throw err;
     }
 });
-AdminRoute.delete("/api/suprimerParent", async (req, res) => {
+AdminRoute.post("/api/suprimerParent", async (req, res) => {
     try {
         const { id } = req.body;
-        let sql = `Delete from parent where ID_PARENT=${id} `;
+        console.log(id);
+        let sql = `Delete from parent where ID_PARENT="${id} "`;
         validation = ValidateSuprime(req.body);
         if (validation.isValid) {
             cnx.query(sql, (err, result) => {
@@ -794,7 +797,7 @@ AdminRoute.delete("/api/suprimerParent", async (req, res) => {
         throw err;
     }
 });
-AdminRoute.delete("/api/suprimerEntraineur", async (req, res) => {
+AdminRoute.post("/api/suprimerEntraineur", async (req, res) => {
     try {
         const { id } = req.body;
         let sql = `Delete from entraineur where ID_ENTRAINEUR=${id} `;
